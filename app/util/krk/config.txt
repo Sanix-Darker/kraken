@@ -1,0 +1,3 @@
+[kraken-config]
+DATABASE_HOST=127.0.0.1
+DATABASE_NAME=kraken
