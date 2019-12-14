@@ -100,4 +100,4 @@ falcon
 *.json
 app/util/kk/models/config.txt
 kraken
-*outt.txt
+*outt*.txt

@@ -1,21 +1,23 @@
 from subprocess import Popen, PIPE, STDOUT
+from os import system as ss
 import argparse
 
 
-def search(text, count):
-    cmd = './ext/googler --count ' + str(count) + ' --exact "' + text[1:] + '"'
-    ping = Popen(cmd.split(" "), stdout=PIPE, stderr=PIPE)
+def exec_command(command, output_file):
+    ss(command + ' > ' + output_file)
 
-    stdout, stderr = ping.communicate()
-    return stdout.decode("utf-8")
+    with open(output_file, "r") as fout:
+        response = fout.read()
+
+    return response
+
+
+def search(text, count):
+    return exec_command('./ext/googler --count ' + str(count) + ' --exact "' + text[1:] + '"', 'outt3.txt')
 
 
 def wikki(text):
-    cmd = 'wikipedia ' + text
-    ping = Popen(cmd.split(" "), stdout=PIPE, stderr=PIPE)
-
-    stdout, stderr = ping.communicate()
-    return stdout.decode("utf-8")
+    return exec_command('wikipedia ' + text, 'outt2.txt')
 
 
 if __name__ == '__main__':
@@ -26,4 +28,5 @@ if __name__ == '__main__':
     prs.add_argument('-c', '--count', help='The message you want to send in SMS', type=int, default=1)
     prs = prs.parse_args()
 
-    print(search(prs.text, prs.count))
+    print("search: ", search(prs.text, prs.count))
+    print("wikki: ", wikki(prs.text))
