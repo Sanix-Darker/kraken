@@ -48,8 +48,6 @@ def perform_command(to_update, phone, command, body):
             "command.label": command,
             "command.body": body
         }, to_update)
-    else:
-        print("[+] Command not allowed")
 
 
 
