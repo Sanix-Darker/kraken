@@ -1,24 +1,23 @@
 from os import system as ss
 import argparse
-from subprocess import Popen, PIPE
+from subprocess import Popen, PIPE, STDOUT
 import time
 
 
 def send_sms(phone, message):
     print("[+] Sender PHONE:{}, MESSAGE:{}".format(phone, message))
-    cmd = "echo '" + message.replace("'", "") + "' | sudo gammu sendsms TEXT " + phone
-    ping = Popen(cmd.split(" "), stdout=PIPE, stderr=PIPE)
+    ss('echo "' + message.replace("'", "") + '" | sudo gammu sendsms TEXT ' + phone + ' > outt.txt')
 
-    stdout, stderr = ping.communicate()
-    response = stdout.decode("utf-8")
+    with open("outt.txt", "r") as fout:
+        response = fout.read()
+        print("[+] response:", response)
+        if "busy or no permissions" in response:
+            return False
+        else:
+            return True
 
-    if "busy or no permissions" in response:
-        return False
-    else:
-        return True
 
-
-def try_send_sms(phone, message, delay=2, limit_trying=5):
+def try_send_sms(phone, message, delay=2, limit_trying=3):
     r = send_sms(phone, message)
     count_trying = 1
     while not r:

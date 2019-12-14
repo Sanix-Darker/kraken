@@ -1,0 +1,1 @@
+Sending SMS 1/1....waiting for network answer..OK, message reference=37

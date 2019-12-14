@@ -22,7 +22,7 @@ def extract_command_from_message(message):
     if "#" in message:
         command_status = False
         command_label = message.split(" ")[0]
-        command_body = message.replace(message.split(" ")[0], "")
+        command_body = message.replace(message.split(" ")[0]+" ", "")
         command = {
             "status": command_status,
             "label": command_label,

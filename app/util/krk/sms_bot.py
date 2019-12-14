@@ -19,10 +19,11 @@ def string_divide(string, div):
 
 
 def perform_command(to_update, phone, command, body):
-    results, array_resp = "", []
+    results, array_resp, to_search = "", [], body[:25]
     if command.lower() in ALLOWED_COMMAND:
         if "#search" in command.lower():
-            results = search(body[:30], 2).replace("\n\n", "\n").replace('"', '').replace("'", "")
+            print("[+] Search for :", to_search)
+            results = search(to_search, 3)
 
         print("[+] results: ", results)
         if len(results) > 5:
@@ -35,16 +36,18 @@ def perform_command(to_update, phone, command, body):
             print("[+] Any relevant results, try another search !")
 
         print("[+]Update Made in the database !")
+
+        to_update["command"]["status"] = True
+        print("to_update:", to_update)
+        Sms().update({
+            "from_number": phone,
+            "command.label": command,
+            "command.body": body
+        }, to_update)
     else:
         print("[+] Command not allowed")
 
-    to_update["command"]["status"] = True
-    print("to_update:", to_update)
-    Sms().update({
-        "from_number": phone,
-        "command.label": command,
-        "command.body": body
-    }, to_update)
+
 
 
 def command_job():
