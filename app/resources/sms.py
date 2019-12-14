@@ -1,7 +1,7 @@
 import json
 
 from app.util.krk.send import send_sms
-from app.util.krk.list_sms import get_all
+from app.util.krk.list_sms_api import get_all
 
 
 class SmsPresentResources:

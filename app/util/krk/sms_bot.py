@@ -1,7 +1,7 @@
 # We fetch in mongod all command with the status as false
 # We execute them and automatically pass them to true
 
-from list_sms import get_commands
+from list_sms_bot import get_commands
 from search import search
 from send import try_send_sms
 from models.Sms import Sms
