@@ -17,7 +17,7 @@ def send_sms(phone, message):
             return True
 
 
-def try_send_sms(phone, message, delay=2, limit_trying=3):
+def try_send_sms(phone, message, delay=3, limit_trying=5):
     r = send_sms(phone, message)
     count_trying = 1
     while not r:

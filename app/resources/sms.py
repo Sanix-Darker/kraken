@@ -1,7 +1,7 @@
 import json
 
 from app.util.krk.send import send_sms
-from app.util.krk.list_sms import get
+from app.util.krk.list_sms import get_all
 
 
 class SmsPresentResources:
@@ -29,7 +29,7 @@ class SmsResources:
                         "message": "Provide correct parameters!",
                     }
             elif operation == "list":
-                results = json.loads(get("app/util/krk/inbox.json"))
+                results = json.loads(get_all())
                 resp.media = {
                     "status": "success",
                     "result": results
