@@ -8,7 +8,7 @@ from models.Sms import Sms
 from threading import Thread
 import time
 
-ALLOWED_COMMAND = ["#search"]
+ALLOWED_COMMAND = ["#google", "#wiki"]
 
 
 def string_divide(string, div):

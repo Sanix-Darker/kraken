@@ -6,6 +6,6 @@ setproctitle==1.1.10
 vyper-config==0.4.0
 requests
 jsonschema
-pymongo-3.4.0
+pymongo==3.4.0
 configparser
 wikipedia-cli
