@@ -135,7 +135,7 @@ def receive_process():
     """
     Returns:
     """
-    print("[+] Kraken Receive module Started")
+    print("[+] Kraken receiver Started...")
     precedent_output = "-"
     while True:
         time.sleep(0.5)

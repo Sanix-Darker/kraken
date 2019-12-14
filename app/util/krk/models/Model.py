@@ -19,7 +19,7 @@ class Model:
 
     def update(self, param, json):
         if self.validate_input(json)[0]:
-            self.collection.update_one(param, json)
+            self.collection.update_one(param, {"$set": json}, upsert=True)
         else:
             print("[+] JSON not valid for update()")
 

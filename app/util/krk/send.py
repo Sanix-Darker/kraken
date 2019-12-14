@@ -1,10 +1,33 @@
 from os import system as ss
 import argparse
+from subprocess import Popen, PIPE
+import time
 
 
 def send_sms(phone, message):
     print("[+] Sender PHONE:{}, MESSAGE:{}".format(phone, message))
-    ss("echo '{}' | sudo gammu sendsms TEXT {}".format(message, phone))
+    cmd = "echo '" + message.replace("'", "") + "' | sudo gammu sendsms TEXT " + phone
+    ping = Popen(cmd.split(" "), stdout=PIPE, stderr=PIPE)
+
+    stdout, stderr = ping.communicate()
+    response = stdout.decode("utf-8")
+
+    if "busy or no permissions" in response:
+        return False
+    else:
+        return True
+
+
+def try_send_sms(phone, message, delay=2, limit_trying=5):
+    r = send_sms(phone, message)
+    count_trying = 1
+    while not r:
+        print("[+] Failed to send message, retrying...")
+        time.sleep(delay)
+        r = send_sms(phone, message)
+        if count_trying >= limit_trying:
+            print("[+] Tried count exceed, the device has a problem or is not well connected !")
+            break
 
 
 if __name__ == '__main__':
@@ -17,4 +40,4 @@ if __name__ == '__main__':
     prs = prs.parse_args()
 
     for i in range(prs.iteration):
-        send_sms(prs.phone, prs.message)
+        try_send_sms(prs.phone, prs.message)

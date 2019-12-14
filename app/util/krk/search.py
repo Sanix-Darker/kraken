@@ -1,11 +1,9 @@
 from subprocess import Popen, PIPE, STDOUT
 import argparse
-from threading import Timer
 
 
 def search(text, count):
-    cmd = './ext/googler --count ' + str(count) + ' --exact "' + text + '"'
-    print("cmd: ", cmd)
+    cmd = './ext/googler --count ' + str(count) + ' --exact "' + text[1:] + '"'
     ping = Popen(cmd.split(" "), stdout=PIPE, stderr=PIPE)
 
     stdout, stderr = ping.communicate()

@@ -3,24 +3,48 @@
 
 from list_sms import get_commands
 from search import search
-from send import send_sms
+from send import try_send_sms
+from models.Sms import Sms
 from threading import Thread
 import time
 
-
-def chunks(s, n):
-    """Produce `n`-character chunks from `s`."""
-    for start in range(0, len(s), n):
-        yield s[start:start + n]
+ALLOWED_COMMAND = ["#search"]
 
 
-def perform_command(phone, command, body):
+def string_divide(string, div):
+    l = []
+    for i in range(0, len(string), div):
+        l.append(string[i:i + div])
+    return l
+
+
+def perform_command(to_update, phone, command, body):
     results, array_resp = "", []
-    if "#search" in command.lower():
-        results = search(body[:15], 2)
+    if command.lower() in ALLOWED_COMMAND:
+        if "#search" in command.lower():
+            results = search(body[:30], 2).replace("\n\n", "\n").replace('"', '').replace("'", "")
 
-    for chunk in chunks(results, 130):
-        send_sms(phone, chunk)
+        print("[+] results: ", results)
+        if len(results) > 5:
+            chunks = string_divide(results, 200)
+            for chunk in chunks:
+                print("[+] Sending :", chunk)
+                try_send_sms(phone, chunk)
+        else:
+            try_send_sms(phone, "Any relevant results, try another search !")
+            print("[+] Any relevant results, try another search !")
+
+        print("[+]Update Made in the database !")
+    else:
+        print("[+] Command not allowed")
+
+    to_update["command"]["status"] = True
+    print("to_update:", to_update)
+    Sms().update({
+        "from_number": phone,
+        "command.label": command,
+        "command.body": body
+    }, to_update)
 
 
 def command_job():
@@ -28,12 +52,11 @@ def command_job():
         time.sleep(2)
         list_command = get_commands()
         if len(list_command) > 0:
-            for command in get_commands():
-                Thread(target=perform_command,
-                       args=(command["from_number"],
-                             command["label"],
-                             command["body"],)).start()
+            for sms in list_command:
+                command = sms["command"]
+                perform_command(sms, sms["from_number"], command["label"], command["body"])
 
 
 if __name__ == '__main__':
+    print("[+] Kraken sms-bot started...")
     command_job()
