@@ -2,7 +2,7 @@
 # We execute them and automatically pass them to true
 
 from list_sms_bot import get_commands
-from search import search
+from search import search, wikki
 from send import try_send_sms
 from models.Sms import Sms
 from threading import Thread
@@ -21,9 +21,13 @@ def string_divide(string, div):
 def perform_command(to_update, phone, command, body):
     results, array_resp, to_search = "", [], body[:25]
     if command.lower() in ALLOWED_COMMAND:
-        if "#search" in command.lower():
+        if "#google" in command.lower():
             print("[+] Search for :", to_search)
             results = search(to_search, 3)
+
+        if "#wiki" in command.lower():
+            print("[+] Wikipedia for :", to_search)
+            results = wikki(to_search)
 
         print("[+] results: ", results)
         if len(results) > 5:

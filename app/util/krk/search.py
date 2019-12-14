@@ -10,6 +10,14 @@ def search(text, count):
     return stdout.decode("utf-8")
 
 
+def wikki(text):
+    cmd = 'wikipedia ' + text
+    ping = Popen(cmd.split(" "), stdout=PIPE, stderr=PIPE)
+
+    stdout, stderr = ping.communicate()
+    return stdout.decode("utf-8")
+
+
 if __name__ == '__main__':
     # Initialize the arguments
     # Example test : python search.py -t "python sucks" -c 3
