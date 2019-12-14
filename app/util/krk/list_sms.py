@@ -1,4 +1,4 @@
-from models.Sms import Sms
+from app.util.krk.models.Sms import Sms
 
 
 def perform_fetch(find_request=None):
