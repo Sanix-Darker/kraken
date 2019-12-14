@@ -2,7 +2,6 @@ from models.Sms import Sms
 
 
 def perform_fetch(find_request=None):
-
     if find_request is None:
         find_request = Sms().findAll()
 
