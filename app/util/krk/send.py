@@ -5,6 +5,15 @@ import time
 
 
 def send_sms(phone, message):
+    """
+
+    Args:
+        phone:
+        message:
+
+    Returns:
+
+    """
     print("[+] Sender PHONE:{}, MESSAGE:{}".format(phone, message))
     ss('echo "' + message.replace("'", "") + '" | sudo gammu sendsms TEXT ' + phone + ' > outt.txt')
 
@@ -18,6 +27,17 @@ def send_sms(phone, message):
 
 
 def try_send_sms(phone, message, delay=3, limit_trying=5):
+    """
+
+    Args:
+        phone:
+        message:
+        delay:
+        limit_trying:
+
+    Returns:
+
+    """
     r = send_sms(phone, message)
     count_trying = 1
     while not r:

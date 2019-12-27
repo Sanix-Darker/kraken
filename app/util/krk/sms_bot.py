@@ -12,6 +12,15 @@ ALLOWED_COMMAND = ["#google", "#wiki"]
 
 
 def string_divide(string, div):
+    """
+
+    Args:
+        string:
+        div:
+
+    Returns:
+
+    """
     l = []
     for i in range(0, len(string), div):
         l.append(string[i:i + div])
@@ -19,6 +28,17 @@ def string_divide(string, div):
 
 
 def perform_command(to_update, phone, command, body):
+    """
+
+    Args:
+        to_update:
+        phone:
+        command:
+        body:
+
+    Returns:
+
+    """
     results, array_resp, to_search = "", [], body[:25]
     if command.lower() in ALLOWED_COMMAND:
         if "#google" in command.lower():
@@ -50,9 +70,12 @@ def perform_command(to_update, phone, command, body):
         }, to_update)
 
 
-
-
 def command_job():
+    """
+
+    Returns:
+
+    """
     while True:
         time.sleep(2)
         list_command = get_commands()

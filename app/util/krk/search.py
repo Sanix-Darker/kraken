@@ -4,6 +4,15 @@ import argparse
 
 
 def exec_command(command, output_file):
+    """
+
+    Args:
+        command:
+        output_file:
+
+    Returns:
+
+    """
     ss(command + ' > ' + output_file)
 
     with open(output_file, "r") as fout:
@@ -13,10 +22,27 @@ def exec_command(command, output_file):
 
 
 def search(text, count):
+    """
+
+    Args:
+        text:
+        count:
+
+    Returns:
+
+    """
     return exec_command('./ext/googler --count ' + str(count) + ' --exact "' + text[1:] + '"', 'outt3.txt')
 
 
 def wikki(text):
+    """
+
+    Args:
+        text:
+
+    Returns:
+
+    """
     return exec_command('wikipedia ' + text, 'outt2.txt')
 
 

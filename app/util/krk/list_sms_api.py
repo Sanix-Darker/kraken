@@ -2,6 +2,14 @@ from app.util.krk.models.Sms import Sms
 
 
 def perform_fetch(find_request=None):
+    """
+
+    Args:
+        find_request:
+
+    Returns:
+
+    """
     if find_request is None:
         find_request = Sms().findAll()
 
@@ -17,14 +25,29 @@ def perform_fetch(find_request=None):
 
 
 def get_all():
+    """
+
+    Returns:
+
+    """
     return perform_fetch()
 
 
 def get_only_messages():
+    """
+
+    Returns:
+
+    """
     return perform_fetch(Sms().findBy({"command.status": {"$exists": False}}))
 
 
 def get_all_commands():
+    """
+
+    Returns:
+
+    """
     return perform_fetch(Sms().findBy({"command.status": {"$exists": True}}))
 
 
