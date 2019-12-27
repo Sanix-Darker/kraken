@@ -1,4 +1,7 @@
-from app.util.krk.models.Sms import Sms
+try:
+    from models.Sms import Sms
+except:
+    from app.util.krk.models.Sms import Sms
 
 
 def perform_fetch(find_request=None):
