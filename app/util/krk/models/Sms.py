@@ -21,3 +21,14 @@ class Sms(Model.Model):
                 "command": {"type": "object"}
             }
         }
+
+# Save process
+# sms_fetch = list(Sms().findBy({
+#     "from_number": json_sms["from_number"],
+#     "message": json_sms["message"],
+#     "date": json_sms["date"]
+# }))
+# if len(sms_fetch) == 0:
+#     print("{+} Saving json_sms: ", json_sms)
+#     new_sms = Sms(json_sms)
+#     new_sms.save()
