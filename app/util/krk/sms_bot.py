@@ -7,8 +7,7 @@ from send import try_send_sms
 from models.Sms import Sms
 from threading import Thread
 import time
-
-ALLOWED_COMMAND = ["#google", "#wiki"]
+from settings import *
 
 
 def string_divide(string, div):

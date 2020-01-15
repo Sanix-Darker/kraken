@@ -4,7 +4,8 @@ from models.Sms import Sms
 from hashlib import md5
 from threading import Thread
 
-from app.util.krk.settings import *
+from settings import *
+
 
 def extract_command_from_message(message):
     """
@@ -17,7 +18,7 @@ def extract_command_from_message(message):
     if "#" in message:
         command_status = False
         command_label = message.split(" ")[0]
-        command_body = message.replace(message.split(" ")[0]+" ", "")
+        command_body = message.replace(message.split(" ")[0] + " ", "")
         command = {
             "status": command_status,
             "label": command_label,
