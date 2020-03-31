@@ -16,18 +16,18 @@ The SMS-INTERNET Bridge using RaspberryPi (Still working on it)
 
 ## How to install
 
-```
-$ cd path/project
-$ virtualenv -p python3 kraken
-$ source kraken/bin/activate
-$ pip install -r dev_requirements.txt
+```shell script
+cd path/project
+virtualenv -p python3 kraken
+source kraken/bin/activate
+pip install -r dev_requirements.txt
 ```
 
 ## How to install Gammu
 
 ### Checking 3G Modem
 To find the modem we need to list all of the USB devices connected to our Raspberry Pi. Do this with the lsusb command. Run the following command:
-```
+```shell script
 lsusb
 ```
 And you will almost certainly see your new 3G dongle in the list as something like:
@@ -41,11 +41,11 @@ So you discovered that your new 3G dongle thinks it is a normal USB drive and no
 
 ### Installing Packages
 You will need the following packages, to install them use the following command:
-```
+```shell script
 sudo apt install ppp usb-modeswitch usb-modeswitch-data
 ```
 After they are installed, reboot your Raspberry Pi with:
-```
+```shell script
 sudo reboot
 ```
 When your Raspberry Pi has finished rebooting, run the lsusb command again and if you look something like this you are golden:
@@ -57,11 +57,11 @@ After you run the `lsusb` command and discover that your dongle now understands 
 
 ### Where’s our Dongle Mounted
 Now we need to know where on your Raspberry Pi the USB modem is mounted in the Raspberry Pi’s file system with:
-```
+```shell script
 dmesg | grep ttyUSB
 ```
 If you’re successful you will see this in your Terminal:
-```
+```shell script
 [3.235831] usb 1-1.3.3: GSM modem (1-port) converter now attached to ttyUSB0
 [3.236856] usb 1-1.3.3: GSM modem (1-port) converter now attached to ttyUSB1
 [3.237626] usb 1-1.3.3: GSM modem (1-port) converter now attached to ttyUSB2
@@ -73,11 +73,12 @@ If you don‘t see any GSM Modems mounted somewhere like the above example we ar
 
 ### Making our own usb_modeswitch Configuration File
 Remember before when I said you need to keep track of those eight numbers, well this is where you will need them. You need to create a new config file with the following command (note the file name is the same 8 digits):
-```
+```shell script
 sudo nano /etc/usb_modeswitch.d/12d1:1001
 ```
+
 The file should have the following contents, obviously adjusted to use your devices ID numbers. That should be the only thing you would need to change.
-```
+```shell script
 # Huawei E353 (3.se)
 
 TargetVendor=  0x12d1
@@ -87,9 +88,10 @@ MessageContent="55534243123456780000000000000011062000000100000000000000000000"
 NoDriverLoading=1
 ```
 Run the following command again:
-```
+```shell script
 dmesg | grep ttyUSB
 ```
+
 ### We Have Some Success!
 If everything went well, you should see the following in your terminal:
 ```
@@ -107,13 +109,14 @@ sudo apt install gammu
 Now we need to configure Gammu so that the Raspberry Pi knows where to look for our dongle:
 
 #### Configuration of Gammu
-```
+```shell script
 sudo gammu-config
 ```
+
 A menu will appear. Use the arrow keys and the return key to navigate. When you’ve finished, your settings should look something like this. Note the /dev/ttyUSB0 from earlier:
 
 #### Recommended Gammu Settings
-```
+```shell script
 Port: /dev/ttyUSB0
 Connection: at19200
 Model: empty
@@ -123,16 +126,17 @@ Log format: nothing
 Use locking: leave empty
 Gammu localisation: leave empty
 ```
+
 Now use the arrow keys to navigate down to Make Sure You Save by using the arrow keys to highlight the save option and then pressing the tab key and selecting the ok option. We check everything is groovy with the following command:
 
 #### Identifying our Dongle
-```
+```shell script
 sudo gammu --identify
 ```
 The response you get back in your Terminal will look something like this (obviously I’ve redacted some personal information, but yours will be fairly similar):
 
 #### Gammu Identify Results
-```
+```shell script
 Device               : /dev/ttyUSB0
 Manufacturer         : Huawei
 Model                : E173 (E173)
@@ -141,56 +145,61 @@ IMEI                 : ***************
 SIM IMSI             : ***************
 ```
 
-
 ## How to use Kraken
 
 ### To start the Bulk SMS Server
-```
-$ python run.py
+```shell script
+python run.py
 ```
 
 ### To send a direct SMS message
+```shell script
+cd app/util/krk
+python send.py -p 6******* -m "This is a test message, for fun"
 ```
-$ cd app/util/krk
-$ python send.py -p 6******* -m "This is a test message, for fun"
+
+### To hit an USSD code
+```shell script
+cd app/util/krk
+python ussd.py -c #123#
 ```
 
 ### To start SMS-BOT
 
-```
+```shell script
 # In your first terminal, you need to start the Consummer
-$ cd app/util/krk
-$ python receive.py
+cd app/util/krk
+python receive.py
 
 # In your second terminal, you need to start teh bot itself
-$ cd app/util/krk
-$ python sms_bot.py
+cd app/util/krk
+python sms_bot.py
 ```
 
 ### Others
 
 - To refresh the connection with the Huawei module
-```
-$ cd app/util/krk
-$ python refresh_connection.py
+```shell script
+cd app/util/krk
+python refresh_connection.py
 ```
 
 - To list sms received and saved in mongo
-```
-$ cd app/util/krk
-$ python list_sms_bot.py
+```shell script
+cd app/util/krk
+python list_sms_bot.py
 ```
 
 - To clean sms received (in the SIM card and mongo)
-```
-$ cd app/util/krk
-$ python empty.py
+```shell script
+cd app/util/krk
+python empty.py
 ```
 
 - To run the tests:
 
-```
-$ pytest tests
+```shell script
+pytest tests
 ```
 
 ## Author
