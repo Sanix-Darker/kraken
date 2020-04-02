@@ -131,7 +131,7 @@ def receive_process():
     """
     Returns:
     """
-    print("[+] Kraken receiver Started...")
+    print("[+] Kraken Consummer Started...")
     precedent_output = "-"
     while True:
         time.sleep(0.5)

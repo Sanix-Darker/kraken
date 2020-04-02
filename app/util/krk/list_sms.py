@@ -1,6 +1,6 @@
 try:
     from models.Sms import Sms
-except:
+except Exception as es:
     from app.util.krk.models.Sms import Sms
 
 
